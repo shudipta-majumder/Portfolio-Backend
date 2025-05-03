@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Poetry
+# Ignore virtual environments if created inside the project folder
+.env
+.venv
+poetry.lock # Optional: But usually, you **commit** this file for reproducibility
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Test/coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env.*
+.envrc
+*.env
+*.venv
+
+# MyPy
+.mypy_cache/
+
+# Pyre type checker
+.pyre/
+
+# pytest
+.pytest_cache/
+
+# SQLite database
+*.sqlite3
+
+# Temporary files
+*.bak
+*.tmp
+*.swp
+*.swo
+
+# Node (if you have frontend)
+node_modules/
