@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, ProjectImage, Category
+from .models import Project, ProjectImage, Category, Profile
 
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
@@ -17,3 +17,5 @@ class ProjectAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
+    
+admin.site.register(Profile)

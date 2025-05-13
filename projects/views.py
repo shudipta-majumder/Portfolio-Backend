@@ -1,10 +1,10 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from .models import Project
-from .serializers import ProjectSerializer
+from .models import Project, Category
+from .serializers import ProjectSerializer, CategorySerializer
 from django.http import JsonResponse
-from rest_framework.pagination import PageNumberPagination
+from django.http import Http404
 from portfolio.pagination import StandardResultsSetPagination
 
 # 1. List API
@@ -13,50 +13,50 @@ class ProjectListAPIView(generics.ListAPIView):
     serializer_class = ProjectSerializer
     pagination_class = StandardResultsSetPagination
 
-    def get(self, request, *args, **kwargs):
-        try:
-            projects = self.get_queryset()
-            page = self.paginate_queryset(projects)  # Paginate the queryset
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(serializer.data)
-            else:
-                serializer = self.get_serializer(projects, many=True)
-                return Response({
-                    "code": 200,
-                    "message": "Successfully retrieved projects.",
-                    "data": serializer.data
-                })
-        except Exception as e:
-            return JsonResponse({
-                "code": 500,
-                "message": "An error occurred while retrieving projects.",
-                "data": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
 
+        if not queryset.exists():
+            return Response({
+                "code": 404,
+                "message": "No projects found.",
+                "data": []
+            }, status=status.HTTP_404_NOT_FOUND) 
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({
+            "code": 200,
+            "message": "Successfully retrieved projects.",
+            "data": serializer.data
+        })
 # 2. Retrieve Single Project API
 class ProjectRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    lookup_field = 'id'  # we will access by id
+    lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
         try:
-            project = self.get_object()  # Get the object based on `id`
+            project = self.get_object()  # May raise Http404
             serializer = self.get_serializer(project)
             return Response({
                 "code": 200,
                 "message": "Successfully retrieved project.",
                 "data": serializer.data
             })
-        except NotFound:
-            return JsonResponse({
+        except (NotFound, Http404):
+            return Response({
                 "code": 404,
                 "message": "Project not found.",
                 "data": None
             }, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return JsonResponse({
+            return Response({
                 "code": 500,
                 "message": "An error occurred while retrieving the project.",
                 "data": str(e)
@@ -105,3 +105,8 @@ class ProjectByCategoryAPIView(generics.ListAPIView):
                 "message": "An error occurred while filtering projects by category.",
                 "data": str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# 4. Cetagory List
+class CategoryListAPIView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer

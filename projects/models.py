@@ -1,6 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(upload_to='media/profile_pics/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s profile"
+    
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    else:
+        instance.profile.save()
+    
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -23,7 +39,7 @@ class Project(models.Model):
     contributor = models.ManyToManyField(User, related_name='projects')
     publish_date = models.DateField()
     live_link = models.URLField(blank=True, null=True)
-    download_file = models.FileField(upload_to='project_files/', blank=True, null=True)
+    download_file = models.FileField(upload_to='media/project_files/', blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
 
     def __str__(self):
@@ -31,7 +47,7 @@ class Project(models.Model):
 
 class ProjectImage(models.Model):
     project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='project_images/')
+    image = models.ImageField(upload_to='media/project_images/')
 
     def __str__(self):
         return f"Image for {self.project.title}"
