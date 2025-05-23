@@ -21,6 +21,6 @@ jobs:
             git pull origin main
             poetry install --no-interaction --no-ansi
             poetry run python manage.py migrate
-            # poetry run python manage.py collectstatic --noinput
+            # user poetry run python manage.py collectstatic --noinput
             # Restart Gunicorn
             sudo systemctl restart gunicorn
