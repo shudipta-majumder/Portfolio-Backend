@@ -19,3 +19,4 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     
 admin.site.register(Profile)
+#vvv
