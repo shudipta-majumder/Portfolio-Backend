@@ -35,6 +35,6 @@ jobs:
             #   python manage.py collectstatic --noinput
 
             # Run the new container with appropriate options
-            docker run -d --name portfolio-container -p 8000:8000 mydockerhubuser/portfolio:latest
+            docker run -d --name portfolio-container -p 8000:8001 mydockerhubuser/portfolio:latest
 
             # Optional: you can add logging or healthchecks here
