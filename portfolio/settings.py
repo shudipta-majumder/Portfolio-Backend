@@ -28,7 +28,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_ALL_ORIGINS = True
-# Application definition
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://shudipta.space",
+    "https://shudipta.space",
+    "https://www.shudipta.space",
+]
+
 
 INSTALLED_APPS = [
     'corsheaders',
