@@ -23,8 +23,8 @@ jobs:
             sudo docker pull shudipta0301/portfolio:latest
 
             # Stop and remove the old container if running
-            sudo docker stop portfolio || true
-            sudo docker rm portfolio || true
+            sudo docker stop portfolio-container || true
+            sudo docker rm portfolio-container || true
 
             # Run migrations in a temporary container before starting new one
             # docker run --rm shudipta0301/portfolio:latest \
