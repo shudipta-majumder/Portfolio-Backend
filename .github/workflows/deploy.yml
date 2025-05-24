@@ -30,11 +30,5 @@ jobs:
             # docker run --rm shudipta0301/portfolio:latest \
               # python manage.py migrate --noinput
 
-            # Collect static files in a temporary container
-            # docker run --rm shudipta0301/portfolio:latest \
-            #   python manage.py collectstatic --noinput
-
             # Run the new container with appropriate options
             sudo docker run -d --name portfolio -p 8001:8000 shudipta0301/portfolio:latest
-
-            # Optional: you can add logging or healthchecks herexxx
