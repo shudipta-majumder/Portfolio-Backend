@@ -35,6 +35,6 @@ jobs:
             #   python manage.py collectstatic --noinput
 
             # Run the new container with appropriate options
-            sudo docker run -d --name portfolio-container -p 8001:8000 shudipta0301/portfolio:latest
+            # sudo docker run -d --name portfolio-container -p 8001:8000 shudipta0301/portfolio:latest
 
             # Optional: you can add logging or healthchecks herexxx
