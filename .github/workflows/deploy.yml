@@ -20,21 +20,21 @@ jobs:
             cd /home/ubuntu/apps/Portfolio-Backend
 
             # Pull latest Docker image from Docker Hub
-            docker pull mydockerhubuser/portfolio:latest
+            docker pull shudipta0301/portfolio:latest
 
             # Stop and remove the old container if running
             docker stop portfolio-container || true
             docker rm portfolio-container || true
 
             # Run migrations in a temporary container before starting new one
-            # docker run --rm mydockerhubuser/portfolio:latest \
+            # docker run --rm shudipta0301/portfolio:latest \
               # python manage.py migrate --noinput
 
             # Collect static files in a temporary container
-            # docker run --rm mydockerhubuser/portfolio:latest \
+            # docker run --rm shudipta0301/portfolio:latest \
             #   python manage.py collectstatic --noinput
 
             # Run the new container with appropriate options
-            docker run -d --name portfolio-container -p 8001:8000 mydockerhubuser/portfolio:latest
+            docker run -d --name portfolio-container -p 8001:8000 shudipta0301/portfolio:latest
 
             # Optional: you can add logging or healthchecks herexxx
