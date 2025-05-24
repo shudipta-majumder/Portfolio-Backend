@@ -33,4 +33,4 @@ RUN poetry config virtualenvs.create false \
 EXPOSE 8000
 
 # Run the app with gunicorn
-CMD ["gunicorn", "portfolio.wsgi:application", "--bind", "0.0.0.0:8000" "--workers", "4"]
+CMD ["gunicorn", "portfolio.wsgi:application", "--bind", "0.0.0.0:8000"]
