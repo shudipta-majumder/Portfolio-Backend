@@ -3,14 +3,14 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main  # Change if your branch is different
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH into AWS and pull latest code
+      - name: SSH into AWS and deploy Docker container
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AWS_HOST }}
@@ -18,9 +18,23 @@ jobs:
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
             cd /home/ubuntu/apps/Portfolio-Backend
-            git pull origin main
-            poetry install --no-interaction --no-ansi
-            poetry run python manage.py migrate
-            # user poetry run python manage.py collectstatic --noinput
-            # Restart Gunicorn
-            sudo systemctl restart gunicorn
+
+            # Pull latest Docker image from Docker Hub
+            docker pull mydockerhubuser/portfolio:latest
+
+            # Stop and remove the old container if running
+            docker stop portfolio-container || true
+            docker rm portfolio-container || true
+
+            # Run migrations in a temporary container before starting new one
+            # docker run --rm mydockerhubuser/portfolio:latest \
+              # python manage.py migrate --noinput
+
+            # Collect static files in a temporary container
+            # docker run --rm mydockerhubuser/portfolio:latest \
+            #   python manage.py collectstatic --noinput
+
+            # Run the new container with appropriate options
+            docker run -d --name portfolio-container -p 8000:8000 mydockerhubuser/portfolio:latest
+
+            # Optional: you can add logging or healthchecks here
