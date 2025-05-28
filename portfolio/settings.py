@@ -86,6 +86,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'portfolio',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '*GIRL+rds$0301#',
+    #     'HOST': 'database-2.ctiw6ouo8w81.ap-southeast-2.rds.amazonaws.com',
+    #     'PORT': '5432',
+    # }
 }
 
 
