@@ -29,7 +29,7 @@ jobs:
             # Run database migrations using a temporary container
             sudo docker run --rm \
               -v /home/ubuntu/apps/Portfolio-Backend/media/:/app/media/ \
-              --env-file /home/ubuntu/apps/Portfolio-Backend/.env.prod \
+              --env-file /home/ubuntu/apps/Portfolio-Backend/.env.production \
               shudipta0301/portfolio:latest \
               python manage.py migrate --noinput
 
@@ -38,5 +38,5 @@ jobs:
               --name portfolio-container \
               -p 8001:8000 \
               -v /home/ubuntu/apps/Portfolio-Backend/media/:/app/media/ \
-              --env-file /home/ubuntu/apps/Portfolio-Backend/.env.prod \
+              --env-file /home/ubuntu/apps/Portfolio-Backend/.env.production \
               shudipta0301/portfolio:latest
