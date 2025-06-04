@@ -3,26 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_pic = models.ImageField(upload_to='media/profile_pics/', blank=True, null=True)
-    project = models.ForeignKey('Project', on_delete=models.CASCADE, null=True, blank=True)
-    role = models.CharField(max_length=100, null=True, blank=True)
-
-    class Meta:
-        unique_together = ('user', 'project')
-
-    def __str__(self):
-        return f"{self.user.username} as {self.role} in {self.project.title if self.project else 'No Project'}"
-
-    
-@receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-    else:
-        instance.profile.save()
-    
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -57,3 +37,18 @@ class ProjectImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.project.title}"
+    
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(upload_to='media/profile_pics/', blank=True, null=True)
+    role = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} as {self.role}"
+    
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    else:
+        instance.profile.save()
