@@ -27,11 +27,11 @@ jobs:
             sudo docker rm portfolio-container || true
 
             # Run database migrations using a temporary container
-            # sudo docker run --rm \
-            #   -v /home/ubuntu/apps/Portfolio-Backend/media/:/app/media/ \
-            #   --env-file /home/ubuntu/apps/Portfolio-Backend/.env.production \
-            #   shudipta0301/portfolio:latest \
-            #   python manage.py migrate --noinput
+            sudo docker run --rm \
+              -v /home/ubuntu/apps/Portfolio-Backend/media/:/app/media/ \
+              --env-file /home/ubuntu/apps/Portfolio-Backend/.env.production \
+              shudipta0301/portfolio:latest \
+              python manage.py migrate --noinput
 
             # Run the new Docker container   
             sudo docker run -d \
