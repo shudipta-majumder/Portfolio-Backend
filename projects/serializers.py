@@ -34,14 +34,10 @@ class ContributorSerializer(serializers.ModelSerializer):
         return None
 
     def get_role(self, obj):
-        project = self.context.get('project')
-        if not project:
-            return None
-        try:
-            profile = Profile.objects.get(user=obj, project=project)
+        profile = getattr(obj, 'profile', None)
+        if profile:
             return profile.role
-        except Profile.DoesNotExist:
-            return None
+        return None
    
 class ProjectSerializer(serializers.ModelSerializer):
     images = ProjectImageSerializer(many=True, read_only=True)
