@@ -42,12 +42,12 @@ class ContributorSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     images = ProjectImageSerializer(many=True, read_only=True)
     contributor = serializers.SerializerMethodField()
-    category_name = serializers.CharField(source='category.name', read_only=True)
+    category_names = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
         fields = [
-            'id', 'title', 'description', 'category_name',
+            'id', 'title', 'description', 'category_names',
             'start_date', 'end_date', 'skills_need', 'contributor',
             'publish_date', 'live_link', 'download_file', 'status', 'images'
         ]
@@ -60,3 +60,6 @@ class ProjectSerializer(serializers.ModelSerializer):
             many=True,
             context={'request': request, 'project': obj}
         ).data
+        
+    def get_category_names(self, obj):
+        return [category.name for category in obj.categories.all()]

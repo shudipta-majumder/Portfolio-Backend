@@ -7,11 +7,15 @@ class ProjectImageInline(admin.TabularInline):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'start_date', 'end_date', 'status', 'publish_date')
-    list_filter = ('category', 'status', 'publish_date')
+    list_display = ('title', 'get_categories', 'start_date', 'end_date', 'status', 'publish_date')
+    list_filter = ('categories', 'status', 'publish_date')
     search_fields = ('title', 'description', 'skills_need', 'contributor')
     date_hierarchy = 'publish_date'
     inlines = [ProjectImageInline] 
+    
+    def get_categories(self, obj):
+        return ", ".join([cat.name for cat in obj.categories.all()])
+    get_categories.short_description = 'Categories'
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

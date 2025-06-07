@@ -18,7 +18,7 @@ class Project(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    categories = models.ManyToManyField(Category, related_name='projects')
     start_date = models.DateField()
     end_date = models.DateField()
     skills_need = models.TextField(help_text="List skills separated by commas")
