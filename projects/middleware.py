@@ -10,19 +10,15 @@ class RequestLoggingMiddleware:
 
     def __call__(self, request):
         path = request.path
-        
-        if path.startswith('/backend/admin/'):
-            return self.get_response(request)
-        
-        if ip in BLOCKED_IPS:
-            return self.get_response(request)
-
         meta = request.META
         ip = meta.get('HTTP_X_FORWARDED_FOR')
         if ip:
             ip = ip.split(',')[0].strip()
         else:
             ip = meta.get('REMOTE_ADDR', '0.0.0.0')
+        if path.startswith('/backend/admin/') or ip in BLOCKED_IPS:
+            return self.get_response(request)
+        
         method = request.method
         user_agent_str = meta.get('HTTP_USER_AGENT', '')
         accept_language = meta.get('HTTP_ACCEPT_LANGUAGE', '')
