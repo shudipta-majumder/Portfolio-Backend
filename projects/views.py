@@ -70,7 +70,7 @@ class ProjectByCategoryAPIView(generics.ListAPIView):
     def get_queryset(self):
         try:
             category_id = self.kwargs['category_id']
-            queryset = Project.objects.filter(category__id=category_id)
+            queryset = Project.objects.filter(categories__id=category_id)
             if not queryset.exists():
                 raise NotFound(detail="No projects found for the given category.")
             return queryset
