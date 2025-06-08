@@ -18,7 +18,11 @@ class RequestLoggingMiddleware:
             return self.get_response(request)
 
         meta = request.META
-        ip = meta.get('HTTP_X_FORWARDED_FOR') or meta.get('REMOTE_ADDR')
+        ip = meta.get('HTTP_X_FORWARDED_FOR')
+        if ip:
+            ip = ip.split(',')[0].strip()
+        else:
+            ip = meta.get('REMOTE_ADDR', '0.0.0.0')
         method = request.method
         user_agent_str = meta.get('HTTP_USER_AGENT', '')
         accept_language = meta.get('HTTP_ACCEPT_LANGUAGE', '')
