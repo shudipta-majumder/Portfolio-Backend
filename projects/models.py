@@ -52,3 +52,18 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
+        
+class RequestLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    ip_address = models.GenericIPAddressField()
+    path = models.CharField(max_length=255)
+    method = models.CharField(max_length=10)
+    user_agent = models.TextField()
+    browser = models.CharField(max_length=100, blank=True)
+    os = models.CharField(max_length=100, blank=True)
+    device_type = models.CharField(max_length=50, blank=True)
+    language = models.CharField(max_length=100, blank=True)
+    accessed_at = models.DateTimeField()
+
+    def __str__(self):
+        return f"{self.ip_address} -> {self.path} @ {self.accessed_at}"

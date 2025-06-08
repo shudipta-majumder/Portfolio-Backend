@@ -34,6 +34,7 @@ class ProjectListAPIView(generics.ListAPIView):
             "message": "Successfully retrieved projects.",
             "data": serializer.data
         })
+
 # 2. Retrieve Single Project API
 class ProjectRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Project.objects.all()

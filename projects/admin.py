@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, ProjectImage, Category, Profile
+from .models import Project, ProjectImage, Category, Profile, RequestLog
 
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
@@ -23,4 +23,9 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     
 admin.site.register(Profile)
-#xxxc
+
+@admin.register(RequestLog)
+class RequestLogAdmin(admin.ModelAdmin):
+    list_display = ('ip_address', 'user', 'path', 'method', 'browser', 'os', 'accessed_at')
+    list_filter = ('ip_address', 'accessed_at', 'os', 'browser', 'device_type', 'method')
+    search_fields = ('ip_address', 'user_agent', 'path', 'user__username')
