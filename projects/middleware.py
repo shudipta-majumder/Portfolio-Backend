@@ -2,7 +2,7 @@ from django.utils import timezone
 import user_agents
 from .models import RequestLog
 
-BLOCKED_IPS = ['127.0.0.1', '192.168.0.100', '192.168.16.124'] 
+BLOCKED_IPS = ['127.0.0.1', '192.168.0.100', '192.168.16.124', '103.109.57.106'] 
 
 class RequestLoggingMiddleware:
     def __init__(self, get_response):
