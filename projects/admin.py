@@ -27,5 +27,5 @@ admin.site.register(Profile)
 @admin.register(RequestLog)
 class RequestLogAdmin(admin.ModelAdmin):
     list_display = ('ip_address', 'user', 'path', 'method', 'browser', 'os', 'accessed_at')
-    list_filter = ('ip_address', 'accessed_at', 'os', 'browser', 'device_type', 'method')
+    list_filter = ('ip_address', 'accessed_at', 'os', 'browser', 'device_info', 'method')
     search_fields = ('ip_address', 'user_agent', 'path', 'user__username')

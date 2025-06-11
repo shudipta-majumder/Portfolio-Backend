@@ -6,6 +6,9 @@ from .serializers import ProjectSerializer, CategorySerializer
 from django.http import JsonResponse
 from django.http import Http404
 from portfolio.pagination import StandardResultsSetPagination
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # 1. List API
 class ProjectListAPIView(generics.ListAPIView):
@@ -111,3 +114,26 @@ class ProjectByCategoryAPIView(generics.ListAPIView):
 class CategoryListAPIView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    
+# 5. Send Email View
+@csrf_exempt
+def send_email_view(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        full_message = f"From: {name} <{email}>\n\n{message}"
+
+        send_mail(
+            subject=subject,
+            message=full_message,
+            from_email=email,
+            recipient_list=['shudiptamazumdar@gmail.com'],
+            fail_silently=False,
+        )
+
+        return JsonResponse({'message': 'Email sent successfully'}, status=200)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

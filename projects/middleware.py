@@ -2,7 +2,7 @@ from django.utils import timezone
 import user_agents
 from .models import RequestLog
 
-BLOCKED_IPS = ['127.0.0.1', '192.168.0.100', '192.168.16.124', '103.109.57.106'] 
+BLOCKED_IPS = ['127.0.0.1', 'localhost','192.168.0.100', '192.168.16.124', '103.109.57.106', '58.145.187.220'] 
 
 class RequestLoggingMiddleware:
     def __init__(self, get_response):
@@ -28,7 +28,11 @@ class RequestLoggingMiddleware:
         ua = user_agents.parse(user_agent_str)
         browser = ua.browser.family
         os = ua.os.family
+        os_version = ua.os.version_string 
         device_type = 'Mobile' if ua.is_mobile else 'Tablet' if ua.is_tablet else 'PC'
+        device_brand = ua.device.brand 
+        device_family = ua.device.family
+        device_model = ua.device.model 
 
         RequestLog.objects.create(
             user=user,
@@ -37,8 +41,8 @@ class RequestLoggingMiddleware:
             method=method,
             user_agent=user_agent_str,
             browser=browser,
-            os=os,
-            device_type=device_type,
+            os=f"{os} {os_version}",
+            device_info=f"{device_type} {device_brand} {device_family} {device_model}",
             language=accept_language,
             accessed_at=timestamp,
         )
