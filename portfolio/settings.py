@@ -33,6 +33,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://shudipta.space",
     "https://shudipta.space",
     "https://www.shudipta.space",
+    "http://127.0.0.1"
 ]
 
 INSTALLED_APPS = [

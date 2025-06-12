@@ -42,6 +42,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = models.ImageField(upload_to='media/profile_pics/', blank=True, null=True)
     role = models.CharField(max_length=100, null=True, blank=True)
+    experience_years = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username} as {self.role}"

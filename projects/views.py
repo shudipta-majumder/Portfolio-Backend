@@ -119,11 +119,12 @@ class CategoryListAPIView(generics.ListAPIView):
 @csrf_exempt
 def send_email_view(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
+        data = json.loads(request.body)
 
+        name = data.get('name')
+        email = data.get('email')
+        subject = data.get('subject')
+        message = data.get('message')
         full_message = f"From: {name} <{email}>\n\n{message}"
 
         send_mail(

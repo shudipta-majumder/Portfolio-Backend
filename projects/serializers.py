@@ -16,6 +16,7 @@ class ContributorSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     profile_pic = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
+    experience_years = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -37,6 +38,12 @@ class ContributorSerializer(serializers.ModelSerializer):
         profile = getattr(obj, 'profile', None)
         if profile:
             return profile.role
+        return None
+    
+    def get_experience_years(self, obj):
+        profile = getattr(obj, 'profile', None)
+        if profile and profile.experience_years is not None:
+            return profile.experience_years
         return None
    
 class ProjectSerializer(serializers.ModelSerializer):
