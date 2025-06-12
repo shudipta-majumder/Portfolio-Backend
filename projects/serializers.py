@@ -20,7 +20,7 @@ class ContributorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'profile_pic', 'role']
+        fields = ['id', 'name', 'profile_pic', 'role', 'experience_years']
 
     def get_name(self, obj):
         return f"{obj.first_name} {obj.last_name}".strip() or obj.username
