@@ -22,6 +22,7 @@ class RequestLoggingMiddleware:
         method = request.method
         user_agent_str = meta.get('HTTP_USER_AGENT', '')
         accept_language = meta.get('HTTP_ACCEPT_LANGUAGE', '')
+        referer = request.META.get('HTTP_REFERER', '')
         timestamp = timezone.now()
         user = request.user if request.user.is_authenticated else None
 
@@ -43,6 +44,7 @@ class RequestLoggingMiddleware:
             browser=browser,
             os=f"{os} {os_version}",
             device_info=f"{device_type} {device_brand} {device_family} {device_model}",
+            referer=referer,
             language=accept_language,
             accessed_at=timestamp,
         )

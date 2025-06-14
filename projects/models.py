@@ -63,6 +63,7 @@ class RequestLog(models.Model):
     browser = models.CharField(max_length=100, blank=True)
     os = models.CharField(max_length=100, blank=True)
     device_info = models.CharField(max_length=100, blank=True)
+    referer = models.URLField(blank=True, null=True)
     language = models.CharField(max_length=100, blank=True)
     accessed_at = models.DateTimeField()
 
