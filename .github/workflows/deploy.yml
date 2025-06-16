@@ -33,7 +33,7 @@ jobs:
               shudipta0301/portfolio:latest \
               python manage.py migrate --noinput
 
-            # Run the new Docker container   
+            # Run the new Docker container 
             sudo docker run -d \
               --name portfolio-container \
               -p 8001:8000 \
