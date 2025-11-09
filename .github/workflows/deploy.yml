@@ -17,7 +17,7 @@ jobs:
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            cd /home/ubuntu/apps/Portfolio-Backend
+            cd /home/ubuntu/web/Portfolio/Portfolio-Backend
 
             # Pull latest Docker image from Docker Hub
             sudo docker pull shudipta0301/portfolio:latest
@@ -28,7 +28,7 @@ jobs:
 
             # Run database migrations using a temporary container
             sudo docker run --rm \
-              -v /home/ubuntu/apps/Portfolio-Backend/media/:/app/media/ \
+              -v /home/ubuntu/web/Portfolio/Portfolio-Backend/media/:/app/media/ \
               --env-file .env.production \
               shudipta0301/portfolio:latest \
               python manage.py migrate --noinput
@@ -37,6 +37,6 @@ jobs:
             sudo docker run -d \
               --name portfolio-container \
               -p 8001:8000 \
-              -v /home/ubuntu/apps/Portfolio-Backend/media/:/app/media/ \
+              -v /home/ubuntu/web/Portfolio/Portfolio-Backend/media/:/app/media/ \
               --env-file .env.production \
               shudipta0301/portfolio:latest
