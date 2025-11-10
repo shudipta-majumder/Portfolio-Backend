@@ -54,6 +54,7 @@ coverage.xml
 # MyPy
 .mypy_cache/
 /static/
+/staticfiles/
 /media/
 
 # Pyre type checker
