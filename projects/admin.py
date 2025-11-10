@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Project, ProjectImage, Category, Profile, RequestLog
+from django.utils.html import format_html
 
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
@@ -22,10 +23,24 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
     
-admin.site.register(Profile)
+# admin.site.register(Profile)
 
 @admin.register(RequestLog)
 class RequestLogAdmin(admin.ModelAdmin):
     list_display = ('ip_address', 'user', 'path', 'method', 'browser', 'os', 'accessed_at')
     list_filter = ('ip_address', 'accessed_at', 'os', 'browser', 'device_info', 'method')
     search_fields = ('ip_address', 'user_agent', 'path', 'user__username')
+    
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'role', 'experience_years', 'profile_pic_preview')
+    search_fields = ('user__username', 'role')
+    
+    def profile_pic_preview(self, obj):
+        if obj.profile_pic:
+            return format_html(
+                '<img src="{}" style="height:50px;width:50px;object-fit:cover;border-radius:50%;" />',
+                obj.profile_pic.url
+            )
+        return "-"
+    profile_pic_preview.short_description = 'Profile Picture'

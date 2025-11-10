@@ -56,6 +56,7 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         
 class RequestLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    ip_addresses = models.CharField(max_length=500, null=True, blank=True)
     ip_address = models.GenericIPAddressField()
     path = models.CharField(max_length=255)
     method = models.CharField(max_length=10)
