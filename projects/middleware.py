@@ -15,7 +15,7 @@ class RequestLoggingMiddleware:
        
         if x_forwarded_for:
             ip_list = [ip.strip() for ip in x_forwarded_for.split(',')]
-            ip = ip.split(',')[0].strip()
+            ip = x_forwarded_for.split(',')[0].strip()
         else:
             ip_list = [request.META.get('REMOTE_ADDR', '0.0.0.0')]
             ip = meta.get('REMOTE_ADDR', '0.0.0.0')
