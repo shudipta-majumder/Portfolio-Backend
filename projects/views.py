@@ -1,13 +1,14 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from .models import Project, Category
+from .models import Project, Category, CollectLogInfo
 from .serializers import ProjectSerializer, CategorySerializer
 from django.http import JsonResponse
 from django.http import Http404
 from portfolio.pagination import StandardResultsSetPagination
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 import json
 
 # 1. List API
@@ -138,3 +139,24 @@ def send_email_view(request):
         return JsonResponse({'message': 'Email sent successfully'}, status=200)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+@require_POST
+def collect_log_info(request):
+    try:
+        data = json.loads(request.body)
+
+        CollectLogInfo.objects.create(
+            log=data
+        )
+
+        return JsonResponse({
+            "success": True,
+            "message": "Log stored successfully"
+        }, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({
+            "success": False,
+            "error": "Invalid JSON"
+        }, status=400)

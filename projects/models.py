@@ -70,3 +70,10 @@ class RequestLog(models.Model):
 
     def __str__(self):
         return f"{self.ip_address} -> {self.path} @ {self.accessed_at}"
+    
+class CollectLogInfo(models.Model):
+    log = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Log #{self.id} @ {self.created_at}"

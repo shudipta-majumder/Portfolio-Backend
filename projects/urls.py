@@ -1,6 +1,6 @@
 # urls.py
 from django.urls import path
-from .views import ProjectListAPIView, ProjectRetrieveAPIView, ProjectByCategoryAPIView, CategoryListAPIView, send_email_view
+from .views import ProjectListAPIView, ProjectRetrieveAPIView, ProjectByCategoryAPIView, CategoryListAPIView, send_email_view, collect_log_info
 
 urlpatterns = [
     path('projects/', ProjectListAPIView.as_view(), name='project-list'),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('projects/category/<int:category_id>/', ProjectByCategoryAPIView.as_view(), name='project-by-category'),
     path('categories/', CategoryListAPIView.as_view(), name='category-list'),
     path('send-email/', send_email_view, name='send-email'),
+    path("collect-log/", collect_log_info, name="collect_log_info"),
 ]

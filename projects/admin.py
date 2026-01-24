@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, ProjectImage, Category, Profile, RequestLog
+from .models import Project, ProjectImage, Category, Profile, RequestLog, CollectLogInfo
 from django.utils.html import format_html
 
 class ProjectImageInline(admin.TabularInline):
@@ -44,3 +44,13 @@ class ProfileAdmin(admin.ModelAdmin):
             )
         return "-"
     profile_pic_preview.short_description = 'Profile Picture'
+    
+@admin.register(CollectLogInfo)
+class CollectLogInfoAdmin(admin.ModelAdmin):
+    list_display = ("id", "short_log", "created_at")
+
+    def short_log(self, obj):
+        log_str = str(obj.log)
+        return log_str[:50] + "..." if len(log_str) > 50 else log_str
+
+    short_log.short_description = "Log"
