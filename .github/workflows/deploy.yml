@@ -22,7 +22,7 @@ jobs:
             # Pull latest Docker image from Docker Hub
             sudo docker pull shudipta0301/portfolio:latest
 
-            # Stop and remove the old container if running
+            # Stop and remove the old container if running 
             sudo docker stop portfolio-container || true
             sudo docker rm portfolio-container || true
 
